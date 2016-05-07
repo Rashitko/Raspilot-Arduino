@@ -25,7 +25,7 @@ const int OutputCommandHandler::getElevator() {
 }
 
 const int OutputCommandHandler::getThrottle() {
-  return throttle;
+  return guard.getThrottle(throttle);
 }
 
 const int OutputCommandHandler::getRudder() {

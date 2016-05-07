@@ -6,17 +6,15 @@
 #include "ThrottleGuard.h"
 
 #define DEFAULT_DELAY 100
-#define DEFAULT_CHANNEL 1500
-#define DEFAULT_THROTTLE 1000
 
 class RCForwarder {
   private:
-    int ailerons = DEFAULT_CHANNEL;
-    int elevator = DEFAULT_CHANNEL;
-    int throttle = DEFAULT_THROTTLE;
-    int rudder = DEFAULT_CHANNEL;
-    int aux1 = DEFAULT_CHANNEL;
-    int aux2 = DEFAULT_CHANNEL;
+    byte ailerons = DEFAULT_CHANNEL;
+    byte elevator = DEFAULT_CHANNEL;
+    byte throttle = DEFAULT_THROTTLE;
+    byte rudder = DEFAULT_CHANNEL;
+    byte aux1 = DEFAULT_CHANNEL;
+    byte aux2 = DEFAULT_CHANNEL;
     ThrottleGuard &guard;
     unsigned long prevSentStamp = 0;
     unsigned long delay = DEFAULT_DELAY;

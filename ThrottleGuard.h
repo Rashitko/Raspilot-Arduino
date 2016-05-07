@@ -4,7 +4,7 @@
 #include "Arduino.h"
 #include "Blinker.h"
 
-#define NOT_ARMED_THROTTLE 1000;
+#define NOT_ARMED_THROTTLE 0;
 
 class ThrottleGuard {
   private:
