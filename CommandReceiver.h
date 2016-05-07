@@ -2,29 +2,27 @@
 #define CommandReceiver_h
 
 #include "Arduino.h"
-#include "Blinker.h"
+#include "Globals.h"
 #include "BaseCommandHandler.h"
 #include "StartCommandHandler.h"
+
+#define COMMAND_RECEIVE_TIMEOUT 100
 
 typedef enum {
   STATE_AVAITING_COMMAND, STATE_RECEIVING_COMMAND
 } InputState;
 
-typedef enum {
-  START_HANDLER, ARMING_HANDLER, NONE
-} ReceivingHandler;
-
 class CommandReceiver {
   private:
-    Blinker &blinker;
     StartCommandHandler &startHandler;
-    BaseCommandHandler &armingHandler;
+    BaseCommandHandler *handlers[HANDLERS_COUNT];
+    BaseCommandHandler *receivingHandler = NULL;
     InputState state = STATE_AVAITING_COMMAND;
-    ReceivingHandler receivingHandler = NONE;
+    unsigned long receiveStart = millis();
     void printState();
     void handleCommandHeader(const byte commandType);
   public:
-    CommandReceiver(Blinker &blinker, StartCommandHandler &startHandler, BaseCommandHandler &armingHandler):blinker(blinker), startHandler(startHandler), armingHandler(armingHandler){};
+    CommandReceiver(StartCommandHandler &startHandler, BaseCommandHandler *cmdHandlers[HANDLERS_COUNT]);
     void newLoop();
 };
 

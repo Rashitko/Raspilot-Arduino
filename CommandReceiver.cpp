@@ -1,5 +1,11 @@
 #include "CommandReceiver.h"
 
+CommandReceiver::CommandReceiver(StartCommandHandler &startHandler, BaseCommandHandler *cmdHandlers[HANDLERS_COUNT]): startHandler(startHandler) {
+  for (int i = 0; i < HANDLERS_COUNT; i++) {
+    handlers[i] = cmdHandlers[i];
+  }
+}
+
 void CommandReceiver::printState() {
   Serial.print("State ");
   Serial.print(this->state);
@@ -9,15 +15,16 @@ void CommandReceiver::printState() {
 void CommandReceiver::handleCommandHeader(const byte commandType) {
   if (startHandler.canHandle(commandType)) {
     state = STATE_RECEIVING_COMMAND;
-    receivingHandler = START_HANDLER;
+    receivingHandler = &startHandler;
+    receiveStart = millis();
   } else if (startHandler.isStarted()) {
-    if (armingHandler.canHandle(commandType)) {
-      state = STATE_RECEIVING_COMMAND;
-      receivingHandler = ARMING_HANDLER;
-    } else {
-      Serial.print("Received ");
-      Serial.print(commandType);
-      Serial.println();
+    for (int i = 0; i < HANDLERS_COUNT; i++) {
+      if (handlers[i]->canHandle(commandType)) {
+        receivingHandler = handlers[i];
+        state = STATE_RECEIVING_COMMAND;
+        receiveStart = millis();
+        break;
+      }
     }
   }
 }
@@ -30,15 +37,18 @@ void CommandReceiver::newLoop() {
       handleCommandHeader(commandType);
     }
     if (state == STATE_RECEIVING_COMMAND) {
-      bool executed = false;
-      if (receivingHandler == START_HANDLER) {
-        executed = startHandler.hasExecuted();
-      } else if (receivingHandler == ARMING_HANDLER) {
-        executed = armingHandler.hasExecuted();
-      }
-      if (executed) {
+      const unsigned long currentTime = millis();
+      const unsigned long timeDiff = currentTime - receiveStart;
+      if (timeDiff >= COMMAND_RECEIVE_TIMEOUT) {
         state = STATE_AVAITING_COMMAND;
-        receivingHandler == NONE;
+        receivingHandler == NULL;
+        Serial.print("!");
+      } else {
+        bool executed = receivingHandler->hasExecuted();
+        if (executed) {
+          state = STATE_AVAITING_COMMAND;
+          receivingHandler == NULL;
+        }
       }
     }
   }

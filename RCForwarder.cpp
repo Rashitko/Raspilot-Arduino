@@ -29,6 +29,7 @@ void RCForwarder::newLoop() {
     Serial.write(rudder);
     Serial.write(aux1);
     Serial.write(aux2);
+    #endif
     prevSentStamp = currentTime;
   }
 }
