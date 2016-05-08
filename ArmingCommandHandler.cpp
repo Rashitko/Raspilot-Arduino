@@ -7,7 +7,11 @@ bool ArmingCommandHandler::canHandle(const byte commandType){
   return false;
 }
 
-bool ArmingCommandHandler::hasExecuted(){
+int ArmingCommandHandler::getPayloadSize() {
+  return 0;
+}
+
+bool ArmingCommandHandler::hasExecuted(byte payload[], const int payloadSize){
   if (receivedCommandType== ArmingCommandHandler::ARM_COMMAND_TYPE) {
     armed = true;
     guard.arm();

@@ -4,16 +4,20 @@ bool OutputCommandHandler::canHandle(const byte commandType) {
   return commandType == OutputCommandHandler::COMMAND_TYPE;
 }
 
-bool OutputCommandHandler::hasExecuted() {
-  const int available = Serial.available();
-  if (available >= OUTPUT_COMMAND_PAYLOAD_SIZE) {
-    ailerons = Serial.read();
-    elevator = Serial.read();
-    throttle = Serial.read();
-    rudder = Serial.read();
+int OutputCommandHandler::getPayloadSize() {
+  return OUTPUT_COMMAND_PAYLOAD_SIZE;
+}
+
+bool OutputCommandHandler::hasExecuted(byte payload[], const int payloadSize) {
+  if (payloadSize == OUTPUT_COMMAND_PAYLOAD_SIZE) {
+    ailerons = payload[PAYLOAD_AIL_POSITION];
+    elevator = payload[PAYLOAD_ELE_POSITION];
+    throttle = payload[PAYLOAD_THR_POSITION];
+    rudder = payload[PAYLOAD_RUD_POSITION];
     return true;
   }
   return false;
+
 }
 
 const int OutputCommandHandler::getAilerons() {

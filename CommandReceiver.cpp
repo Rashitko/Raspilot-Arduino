@@ -44,10 +44,16 @@ void CommandReceiver::newLoop() {
         receivingHandler == NULL;
         Serial.print("!");
       } else {
-        bool executed = receivingHandler->hasExecuted();
-        if (executed) {
-          state = STATE_AVAITING_COMMAND;
-          receivingHandler == NULL;
+        const int available = Serial.available();
+        const int requestedPayloadSize = receivingHandler->getPayloadSize();
+        if (available >= requestedPayloadSize) {
+          byte payload[requestedPayloadSize];
+          Serial.readBytes(payload, requestedPayloadSize);
+          bool executed = receivingHandler->hasExecuted(payload, requestedPayloadSize);
+          if (executed) {
+            state = STATE_AVAITING_COMMAND;
+            receivingHandler == NULL;
+          }
         }
       }
     }

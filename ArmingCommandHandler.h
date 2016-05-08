@@ -4,6 +4,7 @@
 #include "BaseCommandHandler.h"
 #include "Blinker.h"
 #include "ThrottleGuard.h"
+#include "Globals.h"
 
 class ArmingCommandHandler: public BaseCommandHandler {
   private:
@@ -15,7 +16,8 @@ class ArmingCommandHandler: public BaseCommandHandler {
     const static byte DISARM_COMMAND_TYPE = 'd';
     ArmingCommandHandler(ThrottleGuard &guard): guard(guard) {};
     bool canHandle(const byte commandType);
-    bool hasExecuted();
+    int getPayloadSize();
+    bool hasExecuted(byte payload[], const int payloadSize);
     const bool isArmed();
 };
 

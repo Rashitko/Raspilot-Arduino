@@ -7,6 +7,10 @@
 #include "ThrottleGuard.h"
 
 #define OUTPUT_COMMAND_PAYLOAD_SIZE 4
+#define PAYLOAD_AIL_POSITION 0
+#define PAYLOAD_ELE_POSITION 1
+#define PAYLOAD_THR_POSITION 2
+#define PAYLOAD_RUD_POSITION 3
 
 class OutputCommandHandler: public BaseCommandHandler {
   private:
@@ -20,7 +24,8 @@ class OutputCommandHandler: public BaseCommandHandler {
     OutputCommandHandler(ThrottleGuard &guard): guard(guard) {};
     const static byte COMMAND_TYPE = 'o';
     bool canHandle(const byte commandType);
-    bool hasExecuted();
+    int getPayloadSize();
+    bool hasExecuted(byte payload[], const int payloadSize);
     const int getAilerons();
     const int getElevator();
     const int getThrottle();

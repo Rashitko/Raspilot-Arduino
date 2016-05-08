@@ -3,6 +3,7 @@
 
 #include "BaseCommandHandler.h"
 #include "Blinker.h"
+#include "Globals.h"
 
 class StartCommandHandler: public BaseCommandHandler {
   private:
@@ -12,7 +13,8 @@ class StartCommandHandler: public BaseCommandHandler {
     const static byte COMMAND_TYPE = 's';
     StartCommandHandler(Blinker &blinker): blinker(blinker) {};
     bool canHandle(const byte commandType);
-    bool hasExecuted();
+    int getPayloadSize();
+    bool hasExecuted(byte payload[], const int payloadSize);
     const bool isStarted();
 };
 
