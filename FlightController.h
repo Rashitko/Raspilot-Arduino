@@ -9,6 +9,8 @@ class FlightController {
   private:
     byte mode = FLIGHT_MODE_RATE;
     short altitude = 0;
+    short actualHeading = 0;
+    short requiredHeading = 0;
     float latitude = -1;
     float longitude = -1;
   public:
@@ -24,6 +26,10 @@ class FlightController {
     const float getLatitude();
     void setLongitude(const float longitude);
     const float getLongitude();
+    void setActualHeading(const short heading);
+    const short getActualHeading();
+    void setRequiredHeading(const short heading);
+    const short getRequiredHeading();
 };
 
 #endif

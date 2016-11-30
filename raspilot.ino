@@ -22,11 +22,12 @@ StartCommandHandler startHandler(blinker);
 ArmingCommandHandler armingHandler(throttleGuard);
 
 FlightController flightController;
+HeadingCommandHandler headingCmdHandler(flightController);
 LocationCommandHandler locationCmdHandler(flightController);
 AltitudeCommandHandler altitudeCmdHandler(flightController);
 FlightModeCommandHandler flightCmdHandler(flightController);
 
-BaseCommandHandler *handlers[] = {&armingHandler, &panicHandler, &flightCmdHandler, &altitudeCmdHandler, &locationCmdHandler};
+BaseCommandHandler *handlers[] = {&armingHandler, &panicHandler, &flightCmdHandler, &altitudeCmdHandler, &locationCmdHandler, &headingCmdHandler};
 CommandReceiver cmdReceiver(startHandler, handlers);
 
 void setup() {

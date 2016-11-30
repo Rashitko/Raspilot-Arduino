@@ -48,3 +48,19 @@ const float FlightController::getLongitude() {
   return longitude;
 }
 
+void FlightController::setActualHeading(const short heading) {
+  this->actualHeading = heading;
+}
+
+const short FlightController::getActualHeading() {
+  return actualHeading;
+}
+
+void FlightController::setRequiredHeading(const short heading) {
+  this->requiredHeading = heading;
+}
+
+const short FlightController::getRequiredHeading() {
+  return requiredHeading;
+}
+

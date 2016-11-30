@@ -26,6 +26,6 @@
 // ########## HANDLERS ##########
 // ##############################
 // Number of handlers used by the CommandReceiver, StartCommandHandler is not counted here
-#define HANDLERS_COUNT 5
+#define HANDLERS_COUNT 6
 
 #endif
