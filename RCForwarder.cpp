@@ -18,10 +18,10 @@ const void RCForwarder::printChannels() {
 void RCForwarder::newLoop() {
   const unsigned long currentTime = millis();
   const unsigned long timeDiff = currentTime - prevSentStamp;
-  if (timeDiff >= delay) {
+  if (timeDiff >= panicHandler.getDelay()) {
     #ifdef DEBUG
     printChannels();
-    #else
+    #endif
     Serial.write(RCForwarder::COMMAND_TYPE);
     Serial.write(ailerons);
     Serial.write(elevator);
@@ -29,12 +29,6 @@ void RCForwarder::newLoop() {
     Serial.write(rudder);
     Serial.write(aux1);
     Serial.write(aux2);
-    #endif
     prevSentStamp = currentTime;
   }
 }
-
-void RCForwarder::setDelay(const int newDelay) {
-  delay = newDelay;
-}
-

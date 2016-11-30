@@ -4,8 +4,7 @@
 #include "Arduino.h"
 #include "Globals.h"
 #include "ThrottleGuard.h"
-
-#define DEFAULT_DELAY 100
+#include "PanicCommandHandler.h"
 
 class RCForwarder {
   private:
@@ -16,14 +15,13 @@ class RCForwarder {
     byte aux1 = DEFAULT_CHANNEL;
     byte aux2 = DEFAULT_CHANNEL;
     ThrottleGuard &guard;
+    PanicCommandHandler &panicHandler;
     unsigned long prevSentStamp = 0;
-    unsigned long delay = DEFAULT_DELAY;
     const void printChannels();
    public:
     const static byte COMMAND_TYPE = 'f';
-    RCForwarder(ThrottleGuard &guard):guard(guard) {};
+    RCForwarder(ThrottleGuard &guard, PanicCommandHandler &panicHandler):guard(guard), panicHandler(panicHandler) {};
     void newLoop();
-    void setDelay(const int newDelay);
 };
 
 #endif

@@ -4,14 +4,28 @@
 #define DEFAULT_CHANNEL 90
 #define DEFAULT_THROTTLE 0
 
-#define DEBUG
+// #############################
+// ########## GENERAL ##########
+// #############################
+// Serial baudrate
+#define BAUDRATE 9600
 
+// ###############################
+// ########## DEBUGGING ##########
+// ###############################
+// enables transmission of the debug messages
+#define DEBUG_MESSAGES_ENABLED
+// invoke executeConfirm method of command handlers after execution
+#define CONFIRM_COMMANDS
 // when SUPPRESS_RX_FORWARD is defined, RX will not be forwarded over Serial, used mainly to clear the debug Serial output
 #define SUPPRESS_RX_FORWARD
 // when SUPPRESS_SERVO_OUTPUT is defined, Servos will not be controlled
-#define SUPPRESS_SERVO_OUTPUT
+#define SUPPRESS_SERVO_OUTPUT 
 
-// Number of hanlders used by the CommandReceiver
-#define HANDLERS_COUNT 2
+// ##############################
+// ########## HANDLERS ##########
+// ##############################
+// Number of handlers used by the CommandReceiver, StartCommandHandler is not counted here
+#define HANDLERS_COUNT 5
 
 #endif

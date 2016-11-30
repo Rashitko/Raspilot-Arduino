@@ -1,5 +1,3 @@
-#include <Servo.h>
-
 #include "Globals.h"
 
 #include "Blinker.h"
@@ -8,34 +6,40 @@
 #include "ArmingCommandHandler.h"
 #include "ThrottleGuard.h"
 #include "RCForwarder.h"
-#include "OutputCommandHandler.h"
-#include "ServoController.h"
+#include "PanicCommandHandler.h"
+#include "FlightController.h"
+#include "FlightModeCommandHandler.h"
+#include "AltitudeCommandHandler.h"
+#include "LocationCommandHandler.h"
+#include "HeadingCommandHandler.h"
 
 Blinker blinker;
-StartCommandHandler startHandler(blinker);
 ThrottleGuard throttleGuard(blinker);
-RCForwarder forwarder(throttleGuard);
+PanicCommandHandler panicHandler;
+RCForwarder forwarder(throttleGuard, panicHandler);
+
+StartCommandHandler startHandler(blinker);
 ArmingCommandHandler armingHandler(throttleGuard);
-OutputCommandHandler outputHandler(throttleGuard);
-BaseCommandHandler *handlers[] = {&armingHandler, &outputHandler};
+
+FlightController flightController;
+LocationCommandHandler locationCmdHandler(flightController);
+AltitudeCommandHandler altitudeCmdHandler(flightController);
+FlightModeCommandHandler flightCmdHandler(flightController);
+
+BaseCommandHandler *handlers[] = {&armingHandler, &panicHandler, &flightCmdHandler, &altitudeCmdHandler, &locationCmdHandler};
 CommandReceiver cmdReceiver(startHandler, handlers);
-ServoController servoController(outputHandler);
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(BAUDRATE);
   blinker.setup();
-  servoController.setup();
 }
 
 void loop() {
   blinker.newLoop();
   cmdReceiver.newLoop();
-  #ifndef SUPPRESS_RX_FORWARD
+#ifndef SUPPRESS_RX_FORWARD
   if (startHandler.isStarted()) {
     forwarder.newLoop();
   }
-  #endif
-  #ifndef SUPPRESS_SERVO_OUTPUT
-  servoController.newLoop();
-  #endif
+#endif
 }
