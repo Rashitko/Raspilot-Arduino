@@ -9,8 +9,8 @@
 
 class HeadingCommandHandler: public BaseCommandHandler {
   private:
-    static const byte CURRENT_HEADING_COMMAND_TYPE = 'h';
-    static const byte REQUIRED_HEADING_COMMAND_TYPE = 'h';
+    static const byte CURRENT_HEADING_COMMAND_TYPE = 'b';
+    static const byte REQUIRED_HEADING_COMMAND_TYPE = 'B';
     static const byte PAYLOAD_SIZE = 2;
     byte receivedCommandType = 0;
     FlightController flightController;

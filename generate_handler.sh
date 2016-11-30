@@ -4,6 +4,15 @@ NAME=${NAME}
 HEADER_FILE=${NAME}.h
 SOURCE_FILE=${NAME}.cpp
 
+if [[ -a ${HEADER_FILE} ]]; then
+  echo ${HEADER_FILE} "already exists."
+  exit;
+fi
+if [[ -a ${SOURCE_FILE} ]]; then
+  echo ${SOURCE_FILE} "already exists."
+  exit;
+fi
+
 cat << EOF > ${HEADER_FILE}
 #ifndef ${NAME}_h
 #define ${NAME}_h
